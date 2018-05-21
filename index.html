@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>曝光点击测试</title>
+    <script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.cookie.js"></script>
+    <script type="text/javascript" src="src/track.js?v=20170707"></script>
+    <script type="text/javascript">
+        $(function(){
+            var param={
+                pid : '12301_knowledge_base',
+                aid : 'knowledge_base_detail',
+                domain : '12301'
+            }
+            csdn.trackInit(param);
+            csdn.trackPV(true);
+            $("#search-btn").on("click",function(){
+                var keyword=$(this).val();
+                csdn.trackClick({ck:keyword});
+            }) ;
+
+
+
+            $("#logout-btn").on("click",function(){
+                //注销后,删除COOKIE
+                $.removeCookie("name");
+                //修改track全局变量
+                csdn.trackInit({uid:"-"});
+            }) ;
+        });
+
+
+        function openPage(keyword){
+            var link="https://www.baidu.com/s?ie=UTF-8&wd="+keyword;
+            csdn.trackClick({ck:link+","+keyword});
+            window.location.href=link;
+//            window.open(link);
+        }
+
+
+        function closeWindow(){
+            csdn.closeWindow();
+        }
+
+    </script>
+</head>
+<body>
+<p><label for="userName">输入用户名</label><input type="text" id="userName" value="yanglw"><input type="button" id="login-btn" value="登录" /><input type="button" id="logout-btn" value="注销"/></p>
+<p><label for="keyword">请输入搜索关键字:</label><input type="text" id="keyword" value="java"><input type="button" id="search-btn" value="搜索"/></p>
+<p><a href="javascript:closeWindow();">模拟离开</a></p>
+<p><a href="javascript:openPage('java')">java</a></p>
+<p><a href="javascript:openPage('csdn')">csdn</a></p>
+<p><a href="javascript:openPage('baudy')">baidu</a></p>
+<p><a href="javascript:openPage('优酷网')">优酷网</a></p>
+</body>
+</html>
